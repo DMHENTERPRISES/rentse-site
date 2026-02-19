@@ -9,7 +9,7 @@
     <style>
         * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: #fff; color: #000; overflow-x: hidden; width: 100%; margin: 0; }
-        .hero-gradient { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%); }
+        .hero-gradient { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%); }
     </style>
 </head>
 <body class="antialiased">
@@ -59,10 +59,11 @@
             const propCount = document.getElementById('propCount');
             
             try {
-                // FIXED PATH: kushallxd/rentse-site
+                // Fetching from kushallxd/rentse-site
                 const response = await fetch('https://api.github.com/repos/kushallxd/rentse-site/contents/properties?t=' + Date.now());
-                const files = await response.json();
+                if (!response.ok) throw new Error("Folder not found");
                 
+                const files = await response.json();
                 grid.innerHTML = '';
                 let count = 0;
 
@@ -71,15 +72,20 @@
                         const res = await fetch(file.download_url);
                         const text = await res.text();
                         
-                        // Markdown Parsing
-                        const title = (text.match(/title: "(.*)"/) || [null, "Property"])[1];
-                        const price = (text.match(/price: "(.*)"/) || [null, "TBA"])[1];
-                        const image = (text.match(/image: "(.*)"/) || [null, "logo.png"])[1];
+                        // Improved Regex for Markdown
+                        const title = (text.match(/title:\s*"(.*)"/) || text.match(/title:\s*(.*)/) || [null, "Property"])[1].replace(/"/g, "");
+                        const price = (text.match(/price:\s*"(.*)"/) || text.match(/price:\s*(.*)/) || [null, "TBA"])[1].replace(/"/g, "");
+                        let image = (text.match(/image:\s*"(.*)"/) || text.match(/image:\s*(.*)/) || [null, "logo.png"])[1].replace(/"/g, "");
+
+                        // Fix image path if it starts with /
+                        if (image.startsWith('/')) {
+                            image = image.substring(1);
+                        }
 
                         grid.innerHTML += `
                             <div class="prop-card border p-4 shadow-sm hover:shadow-lg transition bg-white">
                                 <div class="aspect-[3/4] mb-4 bg-gray-100 overflow-hidden">
-                                    <img src="${image}" class="w-full h-full object-cover">
+                                    <img src="${image}" alt="${title}" class="w-full h-full object-cover" onerror="this.src='logo.png'">
                                 </div>
                                 <h4 class="text-xl font-900 uppercase text-black">${title}</h4>
                                 <p class="text-black font-light italic mt-1">${price}</p>
@@ -87,10 +93,10 @@
                         count++;
                     }
                 }
-                propCount.innerText = `${count} Active Listings`;
+                propCount.innerText = count > 0 ? `${count} Active Listings` : "No properties published yet";
             } catch (e) {
                 console.error("Fetch error:", e);
-                propCount.innerText = "Check Dashboard Data";
+                propCount.innerText = "Error loading properties";
             }
         }
 
@@ -100,7 +106,7 @@
             const val = document.getElementById('mainSearch').value.toLowerCase().trim();
             const cards = document.querySelectorAll('.prop-card');
             cards.forEach(card => {
-                card.style.display = (val === "" || card.innerText.toLowerCase().includes(val)) ? "block" : "none";
+                card.style.display = card.innerText.toLowerCase().includes(val) ? "block" : "none";
             });
             document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
         }
