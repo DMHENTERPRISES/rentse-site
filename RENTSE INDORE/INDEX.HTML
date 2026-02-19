@@ -34,14 +34,12 @@
             box-shadow: 0 15px 35px rgba(37,211,102,0.4);
         }
 
-        /* LAPTOP/DESKTOP FIX */
         @media (min-width: 1024px) {
             .hero-heading { font-size: 5.5rem !important; line-height: 0.9 !important; margin-bottom: 40px !important; }
             .hero-content-wrapper { padding-top: 100px !important; }
             .search-container { max-width: 600px !important; }
         }
 
-        /* MOBILE FIX */
         @media (max-width: 768px) {
             .hero-heading { font-size: 2.2rem !important; line-height: 1.1 !important; margin-bottom: 25px !important; }
             .hero-content-wrapper { padding-top: 150px !important; }
@@ -98,43 +96,10 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-center mb-16 md:mb-24 border-b border-black/5 pb-8">
                 <h2 class="text-3xl md:text-6xl font-900 tracking-tighter uppercase reveal leading-none">All Properties</h2>
-                <span id="propCount" class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-400 reveal">3 Active Listings</span>
+                <span id="propCount" class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-400 reveal">Loading...</span>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16" id="listingGrid">
-                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Sky Penthouse', '₹5.25 Cr', ['interior.png'], 'Vijay Nagar', '4BHK Ultra-Lux • 4500 Sq Ft', 'Private Infinity Pool, Italian Marble.')">
-                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
-                        <img src="interior.png" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
-                    </div>
-                    <div class="mt-6 md:mt-8">
-                        <h4 class="text-xl md:text-2xl font-900 tracking-tighter uppercase">Sky Penthouse</h4>
-                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Vijay Nagar, Indore</p>
-                        <p class="text-xl md:text-2xl font-light mt-3 italic tracking-tighter">₹5.25 Cr</p>
-                    </div>
-                </div>
-
-                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Cedar Villa', '₹2.80 Cr', ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'], 'Nipania', '5BHK Mansion • 3200 Sq Ft', 'Garden, 3-Car Garage.')">
-                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
-                    </div>
-                    <div class="mt-6 md:mt-8">
-                        <h4 class="text-xl md:text-2xl font-900 tracking-tighter uppercase">Cedar Villa</h4>
-                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Nipania, Indore</p>
-                        <p class="text-xl md:text-2xl font-light mt-3 italic tracking-tighter">₹2.80 Cr</p>
-                    </div>
-                </div>
-
-                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Glass House', '₹3.40 Cr', ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800'], 'Nipania', '3BHK Modern • 2800 Sq Ft', 'Solar Integration, Minimalist.')">
-                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
-                    </div>
-                    <div class="mt-6 md:mt-8">
-                        <h4 class="text-2xl font-900 tracking-tighter uppercase">Glass House</h4>
-                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Nipania, Indore</p>
-                        <p class="text-2xl font-light mt-4 italic tracking-tighter">₹3.40 Cr</p>
-                    </div>
-                </div>
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16" id="listingGrid"></div>
         </div>
     </section>
 
@@ -188,23 +153,73 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.utils.toArray(".reveal").forEach((elem) => {
-            gsap.to(elem, {
-                scrollTrigger: elem,
-                opacity: 1,
-                y: 0,
-                duration: 1.5,
-                ease: "power4.out"
-            });
-        });
-
-        gsap.to("#heroVideo", { scale: 1, duration: 10, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
         const swiper = new Swiper(".mySwiper", { 
             pagination: { el: ".swiper-pagination", clickable: true },
             grabCursor: true,
             keyboard: { enabled: true }
         });
+
+        // DYNAMIC LOAD LOGIC
+        async function loadProperties() {
+            const grid = document.getElementById('listingGrid');
+            const propCount = document.getElementById('propCount');
+            
+            try {
+                // Fetching markdown files from GitHub API
+                const response = await fetch('https://api.github.com/repos/CAMILETYT/CRPROPERTIES/contents/properties');
+                const files = await response.json();
+                
+                let found = 0;
+                grid.innerHTML = ''; 
+
+                for (let file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const res = await fetch(file.download_url);
+                        const text = await res.text();
+                        
+                        // Parse Markdown
+                        const title = (text.match(/title: "(.*)"/) || [null, "No Title"])[1];
+                        const price = (text.match(/price: "(.*)"/) || [null, "TBA"])[1];
+                        const area = (text.match(/area: "(.*)"/) || [null, "Indore"])[1];
+                        const specs = (text.match(/specs: "(.*)"/) || [null, "N/A"])[1];
+                        const image = (text.match(/image: "(.*)"/) || [null, ""])[1];
+                        const features = (text.match(/features: "(.*)"/) || [null, "Contact for details"])[1];
+
+                        const html = `
+                            <div class="prop-card reveal group cursor-pointer" onclick="openDetails('${title}', '${price}', ['${image}'], '${area}', '${specs}', '${features}')">
+                                <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
+                                    <img src="${image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                                </div>
+                                <div class="mt-6 md:mt-8">
+                                    <h4 class="text-xl md:text-2xl font-900 tracking-tighter uppercase">${title}</h4>
+                                    <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">${area}, Indore</p>
+                                    <p class="text-xl md:text-2xl font-light mt-3 italic tracking-tighter">${price}</p>
+                                </div>
+                            </div>`;
+                        grid.innerHTML += html;
+                        found++;
+                    }
+                }
+                propCount.innerText = `${found} Active Listings`;
+                
+                // Trigger Reveal Animation
+                gsap.utils.toArray(".reveal").forEach((elem) => {
+                    gsap.to(elem, {
+                        scrollTrigger: elem,
+                        opacity: 1, y: 0, duration: 1.5, ease: "power4.out"
+                    });
+                });
+
+            } catch (e) {
+                console.error("Dashboard error:", e);
+                propCount.innerText = "No properties found";
+            }
+        }
+
+        // Initialize Load
+        loadProperties();
+
+        gsap.to("#heroVideo", { scale: 1, duration: 10, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
         function openDetails(title, price, imgs, loc, specs, feat) {
             document.getElementById('mTitle').innerText = title;
@@ -214,7 +229,7 @@
             document.getElementById('mFeat').innerText = feat;
             
             const slider = document.getElementById('modalSlider');
-            slider.innerHTML = imgs.slice(0, 7).map(src => `<div class="swiper-slide"><img src="${src}" class="w-full h-full object-cover"></div>`).join('');
+            slider.innerHTML = imgs.map(src => `<div class="swiper-slide"><img src="${src}" class="w-full h-full object-cover"></div>`).join('');
             
             swiper.update();
             swiper.slideTo(0, 0);
@@ -245,20 +260,15 @@
             const propertySection = document.getElementById('properties');
             let found = 0;
 
-            if (val === "") {
-                cards.forEach(card => card.classList.remove('hidden-card'));
-                found = cards.length;
-            } else {
-                cards.forEach(card => {
-                    const text = card.innerText.toLowerCase();
-                    if (text.includes(val)) {
-                        card.classList.remove('hidden-card');
-                        found++;
-                    } else {
-                        card.classList.add('hidden-card');
-                    }
-                });
-            }
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (val === "" || text.includes(val)) {
+                    card.classList.remove('hidden-card');
+                    found++;
+                } else {
+                    card.classList.add('hidden-card');
+                }
+            });
             document.getElementById('propCount').innerText = `${found} Active Listings`;
             propertySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
