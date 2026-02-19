@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RENT SE PROPERTIES | Indore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { -webkit-tap-highlight-color: transparent; outline: none !important; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #fff; color: #000; overflow-x: hidden; width: 100%; margin: 0; }
+        
+        .hero-gradient { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%); }
+        .reveal { opacity: 0; transform: translateY(30px); }
+        .hidden-card { display: none !important; }
+        
+        .shimmer-link {
+            background: linear-gradient(90deg, #888, #fff, #888);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        .wa-float {
+            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            background: #25d366; color: white; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 15px 35px rgba(37,211,102,0.4);
+        }
+
+        /* LAPTOP/DESKTOP FIX */
+        @media (min-width: 1024px) {
+            .hero-heading { font-size: 5.5rem !important; line-height: 0.9 !important; margin-bottom: 40px !important; }
+            .hero-content-wrapper { padding-top: 100px !important; }
+            .search-container { max-width: 600px !important; }
+        }
+
+        /* MOBILE FIX */
+        @media (max-width: 768px) {
+            .hero-heading { font-size: 2.2rem !important; line-height: 1.1 !important; margin-bottom: 25px !important; }
+            .hero-content-wrapper { padding-top: 150px !important; }
+            .top-nav-logo { font-size: 0.75rem !important; left: 15px !important; top: 25px !important; max-width: 40% !important;}
+            .top-right-call { right: 15px !important; top: 18px !important; }
+            .search-container { margin-top: 20px !important; }
+            .search-input { font-size: 0.8rem !important; }
+        }
+    </style>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="antialiased">
+
+    <a href="https://wa.me/919098128523" target="_blank" class="wa-float hover:scale-110 transition duration-300">
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.747-2.874-2.512-2.96-2.625-.087-.113-.708-.941-.708-1.797 0-.856.448-1.274.607-1.446.159-.171.348-.214.464-.214.116 0 .232.001.333.006.109.004.254-.042.398.302.145.348.493 1.203.536 1.29.043.087.072.188.014.304-.058.116-.087.188-.174.29-.087.101-.184.225-.262.302-.089.088-.182.183-.078.361.104.178.461.761.989 1.233.681.609 1.256.798 1.434.887.178.089.284.075.389-.047.105-.122.448-.522.569-.7.121-.178.242-.149.406-.089.164.06.1.48 1.347.142.062-.031.114.301.134.402.02.101.02.201-.124.606z"/></svg>
+    </a>
+
+    <section class="relative h-screen w-full flex items-center justify-center bg-black overflow-hidden">
+        <div class="top-nav-logo absolute top-10 left-10 z-[100] flex items-center space-x-3">
+            <img src="logo.PNG" alt="Logo" class="h-8 md:h-12 w-auto object-contain">
+            <span class="text-white text-xl font-900 tracking-tighter uppercase leading-none">RENT SE PROPERTIES</span>
+        </div>
+        
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 z-[100] hidden md:flex items-center space-x-12">
+            <a href="#properties" class="text-white text-[11px] font-900 uppercase tracking-[0.3em] hover:opacity-70 transition">Properties</a>
+            <a href="#contact" class="text-white text-[11px] font-900 uppercase tracking-[0.3em] hover:opacity-70 transition">Contact Us</a>
+        </div>
+
+        <div class="top-right-call absolute top-10 right-10 z-[100]">
+            <a href="tel:+919098128523" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2 md:px-8 md:py-3 text-[10px] md:text-[11px] font-900 uppercase tracking-[0.3em] rounded-sm hover:bg-white hover:text-black transition">Call Now</a>
+        </div>
+
+        <video autoplay muted loop playsinline class="absolute w-full h-full object-cover opacity-80" id="heroVideo">
+            <source src="hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-gradient absolute inset-0"></div>
+        
+        <div class="hero-content-wrapper relative z-10 text-center text-white px-6 w-full max-w-5xl">
+            <h1 class="hero-heading text-6xl md:text-9xl font-900 tracking-tighter mb-8 md:mb-12 leading-[1.0] md:leading-[0.85] reveal uppercase">
+                Best Properties<br>In Indore
+            </h1>
+            
+            <div class="reveal max-w-2xl mx-auto search-container">
+                <div class="bg-white/10 backdrop-blur-2xl border border-white/20 p-1 md:p-2 rounded-full flex items-center shadow-2xl overflow-hidden">
+                    <input type="text" id="mainSearch" placeholder="Search 'Nipania'..." 
+                        class="bg-transparent flex-1 px-4 md:px-8 py-3 md:py-4 outline-none text-white placeholder-white/40 text-sm md:text-lg w-full">
+                    <button onclick="filterAndScroll()" class="search-btn bg-white text-black h-10 md:h-14 px-6 md:px-10 rounded-full font-black uppercase text-[10px] md:text-[11px] tracking-widest hover:bg-gray-200 transition">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="properties" class="py-20 md:py-32 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-16 md:mb-24 border-b border-black/5 pb-8">
+                <h2 class="text-3xl md:text-6xl font-900 tracking-tighter uppercase reveal leading-none">All Properties</h2>
+                <span id="propCount" class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-400 reveal">3 Active Listings</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16" id="listingGrid">
+                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Sky Penthouse', '₹5.25 Cr', ['interior.png'], 'Vijay Nagar', '4BHK Ultra-Lux • 4500 Sq Ft', 'Private Infinity Pool, Italian Marble.')">
+                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
+                        <img src="interior.png" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                    </div>
+                    <div class="mt-6 md:mt-8">
+                        <h4 class="text-xl md:text-2xl font-900 tracking-tighter uppercase">Sky Penthouse</h4>
+                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Vijay Nagar, Indore</p>
+                        <p class="text-xl md:text-2xl font-light mt-3 italic tracking-tighter">₹5.25 Cr</p>
+                    </div>
+                </div>
+
+                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Cedar Villa', '₹2.80 Cr', ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800'], 'Nipania', '5BHK Mansion • 3200 Sq Ft', 'Garden, 3-Car Garage.')">
+                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                    </div>
+                    <div class="mt-6 md:mt-8">
+                        <h4 class="text-xl md:text-2xl font-900 tracking-tighter uppercase">Cedar Villa</h4>
+                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Nipania, Indore</p>
+                        <p class="text-xl md:text-2xl font-light mt-3 italic tracking-tighter">₹2.80 Cr</p>
+                    </div>
+                </div>
+
+                <div class="prop-card reveal group cursor-pointer" onclick="openDetails('Glass House', '₹3.40 Cr', ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800'], 'Nipania', '3BHK Modern • 2800 Sq Ft', 'Solar Integration, Minimalist.')">
+                    <div class="relative overflow-hidden aspect-[3/4] bg-gray-100 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                    </div>
+                    <div class="mt-6 md:mt-8">
+                        <h4 class="text-2xl font-900 tracking-tighter uppercase">Glass House</h4>
+                        <p class="text-gray-400 text-[9px] md:text-[10px] font-bold uppercase tracking-widest mt-2">Nipania, Indore</p>
+                        <p class="text-2xl font-light mt-4 italic tracking-tighter">₹3.40 Cr</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 md:py-32 px-6 md:px-12 bg-black text-white">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+            <div class="reveal">
+                <h2 class="text-6xl md:text-8xl font-900 tracking-tighter mb-4 uppercase leading-[0.85]">RENT SE<br>PROPERTIES.</h2>
+                <p class="text-white/60 text-base md:text-lg mb-12 font-light">Address: Near MAX Fashion, Gopur Square Indore, Madhya Pradesh, +91-9098128523</p>
+                <div class="flex flex-col space-y-4 max-w-sm">
+                    <a href="tel:+919098128523" class="bg-white text-black py-4 md:py-5 text-center font-black uppercase text-[10px] md:text-[11px] tracking-widest hover:bg-gray-200 transition">Call Us Now</a>
+                    <a href="https://wa.me/919098128523" target="_blank" class="border border-white/20 py-4 md:py-5 text-center font-black uppercase text-[10px] md:text-[11px] tracking-widest hover:bg-white/10 transition">Chat With Us</a>
+                    <a href="https://share.google/moslO3lWApqe8o4zc" target="_blank" class="border border-white/20 py-4 md:py-5 text-center font-black uppercase text-[10px] md:text-[11px] tracking-widest hover:bg-white/10 transition">Visit Our Office</a>
+                </div>
+            </div>
+            <div class="reveal h-[450px] w-full grayscale invert rounded-sm overflow-hidden opacity-40 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3681.1832458308904!2d75.8264035753038!3d22.684221379412424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fc386bb97773%3A0x2bf941b552c4e88e!2sGopur%20Square%2C%20Indore%2C%20Madhya%20Pradesh%20452009!5e0!3m2!1sen!2sin!4v1771502015001!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-black text-center border-t border-white/5 flex flex-col items-center space-y-6">
+        <a href="https://www.instagram.com/rent.se__indore" target="_blank" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full flex items-center space-x-3 hover:bg-white hover:text-black transition group">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.848 0-3.204.012-3.584.07-4.849.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <span class="text-[10px] font-black uppercase tracking-widest">Follow @rent.se__indore</span>
+        </a>
+        <a href="https://instagram.com/cityreach.in" class="shimmer-link text-[10px] uppercase tracking-[0.6em]">
+            Website Designed & Managed by CITY REACH
+        </a>
+    </footer>
+
+    <div id="modal" class="fixed inset-0 z-[2000] bg-black hidden flex-col md:flex-row overflow-y-auto w-full">
+        <button onclick="closeModal()" class="fixed top-8 right-8 text-6xl font-light z-[2100] text-white hover:rotate-90 transition-transform">×</button>
+        <div class="w-full md:w-3/5 h-[50vh] md:h-screen bg-gray-900">
+            <div class="swiper mySwiper h-full">
+                <div class="swiper-wrapper" id="modalSlider"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="w-full md:w-2/5 p-12 md:p-20 bg-black text-white flex flex-col justify-center border-l border-white/10">
+            <p id="mLoc" class="text-white/40 text-[10px] font-black uppercase tracking-[0.5em] mb-6"></p>
+            <h2 id="mTitle" class="text-5xl md:text-7xl font-900 tracking-tighter mb-4 uppercase leading-none"></h2>
+            <h3 id="mPrice" class="text-3xl italic text-white/50 mb-10 border-b border-white/10 pb-10"></h3>
+            <div class="space-y-10 mb-16">
+                <div><p id="mSpecs" class="text-xl font-light italic"></p></div>
+                <div><p id="mFeat" class="text-sm font-light text-white/70 leading-relaxed"></p></div>
+            </div>
+            <button id="mWa" class="bg-white text-black py-6 px-10 font-black uppercase text-[11px] tracking-[0.3em] hover:bg-gray-200 transition active:scale-95">Book Private Viewing</button>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray(".reveal").forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: elem,
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+        });
+
+        gsap.to("#heroVideo", { scale: 1, duration: 10, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+        const swiper = new Swiper(".mySwiper", { 
+            pagination: { el: ".swiper-pagination", clickable: true },
+            grabCursor: true,
+            keyboard: { enabled: true }
+        });
+
+        function openDetails(title, price, imgs, loc, specs, feat) {
+            document.getElementById('mTitle').innerText = title;
+            document.getElementById('mPrice').innerText = price;
+            document.getElementById('mLoc').innerText = loc;
+            document.getElementById('mSpecs').innerText = specs;
+            document.getElementById('mFeat').innerText = feat;
+            
+            const slider = document.getElementById('modalSlider');
+            slider.innerHTML = imgs.slice(0, 7).map(src => `<div class="swiper-slide"><img src="${src}" class="w-full h-full object-cover"></div>`).join('');
+            
+            swiper.update();
+            swiper.slideTo(0, 0);
+
+            const msg = encodeURIComponent(`Hi Rent Se Properties, I'm interested in viewing the ${title} in ${loc} (${price}).`);
+            document.getElementById('mWa').onclick = () => {
+                window.open(`https://wa.me/919098128523?text=${msg}`, '_blank');
+            };
+
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            gsap.from("#modal", { opacity: 0, duration: 0.6 });
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('mainSearch').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { filterAndScroll(); }
+        });
+
+        function filterAndScroll() {
+            const val = document.getElementById('mainSearch').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.prop-card');
+            const propertySection = document.getElementById('properties');
+            let found = 0;
+
+            if (val === "") {
+                cards.forEach(card => card.classList.remove('hidden-card'));
+                found = cards.length;
+            } else {
+                cards.forEach(card => {
+                    const text = card.innerText.toLowerCase();
+                    if (text.includes(val)) {
+                        card.classList.remove('hidden-card');
+                        found++;
+                    } else {
+                        card.classList.add('hidden-card');
+                    }
+                });
+            }
+            document.getElementById('propCount').innerText = `${found} Active Listings`;
+            propertySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
